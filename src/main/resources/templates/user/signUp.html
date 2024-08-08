@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/defaultLayout}">
+
+<section layout:fragment="content" class="contents bg-warning d-flex justify-content-center">
+	<div class="sign-up-box">
+		<h2>회원가입</h2>
+		<form method="post" action="/user/sign-up">
+			<table class="table table-bordered">
+				<tr>
+					<th>아이디</th>
+					<td>
+						<div class="d-flex">
+							<input type="text" name="loginId" id="loginId" class="form-control col-9" placeholder="아이디를 입력하세요">
+							<button type="button" id="checkIdBtn" class="btn btn-success">중복확인</button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input type="password" name="password" id="password" class="form-control" placeholder="비밀번호를 입력하세요"></td>
+				</tr>
+				<tr>
+					<th>비밀번호 확인</th>
+					<td><input type="password" name="checkPassword" id="checkPassword" class="form-control" placeholder="비밀번호를 입력하세요"></td>
+				</tr>
+				<tr>
+					<th>이름</th>
+					<td><input type="text" name="name" id="name" class="form-control" placeholder="이름을 입력하세요"></td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td><input type="text" name="email" id="email" class="form-control" placeholder="이메일을 입력하세요"></td>
+				</tr>
+			</table>
+			<button type="submit" id="signUpBtn" class="btn btn-info">가입하기</button>
+		</form>
+	</div>
+</section>
+
+<th:block layout:fragment="script">
+	<script>
+		$(document).ready(function() {
+			//alert("확인");
+			// 가입하기 버튼을 클릭
+			$("#signUpBtn").on('click', function(e) {
+				e.preventDefault();
+				//alert("가입하기");
+				let loginId = $("#loginId").val().trim();
+				if (loginId.length < 1) {
+					alert("이름을 입력하세요");
+					return false;
+				}
+				//console.log(loginId);
+				let password = $("#password").val();
+				if (password.length < 1) {
+					alert("비밀번호를 입력하세요");
+					return false;
+				}
+				console.log(password);
+				
+				let checkPassword = $("#checkPassword").val();
+				if (checkPassword.length < 1) {
+					alert("비밀번호를 입력하세요");
+					return false;
+				}
+				console.log(checkPassword);
+								
+				if (password != checkPassword) {
+					alert("비밀번호가 일치하는지 확인해주세요");
+					return false;
+				}
+				
+				let name = $("#name").val().trim();
+				if (name.length < 1) {
+					alert("이름을 입력하세요");
+					return false;
+				}
+				//console.log(name);
+				let email = $("#email").val().trim();
+				if (email.length < 1) {
+					alert("이메일을 입력하세요");
+					return false;
+				}
+				//console.log(email);
+				
+				$.ajax({
+					type:"POST"
+					, url:"/user/sign-up"
+					, data:{"loginId":loginId, "password":password, "name":name, "email":email}
+				
+					,success:function(data) {
+						if (data.code == 200) {
+							alert("회원가입을 환영합니다");
+							//location.href = "/user/sign-in-view"
+						}
+					}
+					, error:function(error) {
+						alert(data.error_message);
+					}
+				});
+			});
+		});
+	</script>
+</th:block>
+</html>
