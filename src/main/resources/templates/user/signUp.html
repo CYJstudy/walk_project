@@ -7,7 +7,7 @@
 <section layout:fragment="content" class="contents bg-warning d-flex justify-content-center">
 	<div class="sign-up-box">
 		<h2>회원가입</h2>
-		<form method="post" action="/user/sign-up">
+		<form id="signUpForm" method="post" action="/user/sign-up">
 			<table class="table table-bordered">
 				<tr>
 					<th>아이디</th>
@@ -24,7 +24,7 @@
 				</tr>
 				<tr>
 					<th>비밀번호 확인</th>
-					<td><input type="password" name="checkPassword" id="checkPassword" class="form-control" placeholder="비밀번호를 입력하세요"></td>
+					<td><input type="password" id="checkPassword" class="form-control" placeholder="비밀번호를 입력하세요"></td>
 				</tr>
 				<tr>
 					<th>이름</th>
@@ -45,7 +45,7 @@
 		$(document).ready(function() {
 			//alert("확인");
 			// 가입하기 버튼을 클릭
-			$("#signUpBtn").on('click', function(e) {
+			$("#signUpForm").on('submit', function(e) {
 				e.preventDefault();
 				//alert("가입하기");
 				let loginId = $("#loginId").val().trim();
@@ -86,18 +86,17 @@
 				}
 				//console.log(email);
 				
-				$.ajax({
-					type:"POST"
-					, url:"/user/sign-up"
-					, data:{"loginId":loginId, "password":password, "name":name, "email":email}
-				
-					,success:function(data) {
-						if (data.code == 200) {
-							alert("회원가입을 환영합니다");
-							//location.href = "/user/sign-in-view"
-						}
-					}
-					, error:function(error) {
+				let url = $(this).attr("action");
+				console.log(url);
+				let params = $(this).serialize();
+				console.log(params);
+			
+				$.post(url, params)
+				.done(function(data) {
+					if (data.code == 200) {
+						alert("회원가입을 환영합니다.");
+						//location.href = "user/sign-in-view";
+					} else {
 						alert(data.error_message);
 					}
 				});

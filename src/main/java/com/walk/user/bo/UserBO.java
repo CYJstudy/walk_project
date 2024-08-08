@@ -12,12 +12,13 @@ public class UserBO {
 	@Autowired
 	private UserRepository userRepository;
 
-	public UserEntity addUser(String loginId, String password, String name, String email) {
+	public UserEntity addUser(String loginId, String password, String name, String email, Boolean admin) {
 		return userRepository.save(UserEntity.builder()
 				.loginId(loginId)
 				.password(password)
 				.name(name)
 				.email(email)
+				.admin(admin)
 				.build());
 	}
 }
