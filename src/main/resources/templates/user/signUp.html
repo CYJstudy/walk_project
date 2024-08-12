@@ -4,7 +4,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/defaultLayout}">
 
-<section layout:fragment="content" class="contents bg-warning d-flex justify-content-center">
+<section layout:fragment="content" class="mt-5 contents d-flex justify-content-center">
 	<div class="sign-up-box">
 		<h2>회원가입</h2>
 		<form id="signUpForm" method="post" action="/user/sign-up">
@@ -16,6 +16,9 @@
 							<input type="text" name="loginId" id="loginId" class="form-control col-9" placeholder="아이디를 입력하세요">
 							<button type="button" id="checkIdBtn" class="btn btn-success">중복확인</button>
 						</div>
+						<div id="idLength" class="small text-danger d-none">아이디를 3자이상 입력해주세요</div>
+						<div id="idCheckDuplicated" class="small text-danger d-none">중복된 아이디입니다</div>
+						<div id="idCheckSuccess" class="small text-success d-none">사용가능한 아이디입니다</div>			
 					</td>
 				</tr>
 				<tr>
@@ -38,19 +41,53 @@
 			<button type="submit" id="signUpBtn" class="btn btn-info">가입하기</button>
 		</form>
 	</div>
-</section>
+</section> 
 
 <th:block layout:fragment="script">
 	<script>
 		$(document).ready(function() {
 			//alert("확인");
+			
+			//중복확인 버튼을 클릭
+			$("#checkIdBtn").on('click', function() {
+				//alert("중복확인 클릭");
+				$("#idLength").addClass("d-none");
+				$("#idCheckDuplicated").addClass("d-none");
+				$("#idCheckSuccess").addClass("d-none");
+				
+				// 아이디 길이 확인
+				let loginId = $("#loginId").val().trim();
+				if (loginId.length < 3) {
+					$("#idLength").removeClass("d-none");
+					return;
+				}
+				
+				$.ajax({
+					type:"POST"
+					, url:"/user/is-duplicated-id"
+					, data:{"loginId":loginId}
+				
+					,success:function(data) {
+						if(data.is_duplicated_id) {
+							$("#idCheckDuplicated").removeClass("d-none");
+						} else {
+							$("#idCheckSuccess").removeClass("d-none");
+						}
+					}
+					, error:function(error) {
+						alert("중복확인에 실패했습니다.");
+					}
+				});
+				
+			});
+		
 			// 가입하기 버튼을 클릭
 			$("#signUpForm").on('submit', function(e) {
 				e.preventDefault();
 				//alert("가입하기");
 				let loginId = $("#loginId").val().trim();
 				if (loginId.length < 1) {
-					alert("이름을 입력하세요");
+					alert("아이디를 입력하세요");
 					return false;
 				}
 				//console.log(loginId);
@@ -95,7 +132,7 @@
 				.done(function(data) {
 					if (data.code == 200) {
 						alert("회원가입을 환영합니다.");
-						//location.href = "user/sign-in-view";
+						location.href = "user/sign-in-view";
 					} else {
 						alert(data.error_message);
 					}

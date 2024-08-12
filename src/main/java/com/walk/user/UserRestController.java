@@ -19,6 +19,23 @@ public class UserRestController {
 	@Autowired
 	private UserBO userBO;
 	
+	// 아이디중복
+	@PostMapping("/is-duplicated-id")
+	public Map<String, Object> isDuplicatedId(
+			@RequestParam("loginId") String loginId) {
+		
+		UserEntity user = userBO.getUserEntityLoginId(loginId);
+		
+		Map<String, Object> result = new HashMap<>();
+		if (user != null) {
+			result.put("is_duplicated_id", true);
+		} else {
+			result.put("is_duplicated_id", false);
+		}
+		
+		return result;
+	}
+	
 	// 회원가입
 	@PostMapping("/sign-up")
 	public Map<String, Object> signUp(
@@ -43,4 +60,38 @@ public class UserRestController {
 		
 		return result;
 	}
+	
+	// 로그인
+	@PostMapping("/sign-in")
+	public Map<String, Object> signIn(			
+			@RequestParam("loginId") String loginId,
+			@RequestParam("password") String password) {
+	
+		UserEntity user = userBO.getUserEntityLoginIdAndPassword(loginId, password);
+		
+		Map<String, Object> result = new HashMap<>();
+		if (user != null) {
+			result.put("code", 200);
+			result.put("result", "성공");
+		} else {
+			result.put("code", 500);
+			result.put("error_message", "로그인에 실패했습니다");
+		}
+		
+		return result;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
