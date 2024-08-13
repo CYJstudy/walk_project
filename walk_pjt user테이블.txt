@@ -1,0 +1,14 @@
+CREATE TABLE `user` (
+    `id` int NOT NULL AUTO_INCREMENT primary key,
+    `loginId` varchar(15) NOT NULL,
+    `password` varchar(128) NOT NULL,
+    `name` varchar(20) NOT NULL,
+    `email` varchar(128) NOT NULL,
+    `admin` boolean NOT NULL DEFAULT 0,
+    `createdAt` timestamp DEFAULT CURRENT_TIMESTAMP,
+    `updatedAt` timestamp DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+select * from `user`
+
+1	aaa	qlalf	김워크	walk@walk.com	0	2024-08-12 16:19:23	2024-08-12 16:19:23

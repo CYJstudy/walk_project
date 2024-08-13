@@ -29,4 +29,12 @@ public class UserBO {
 	public UserEntity getUserEntityLoginIdAndPassword(String loginId, String pasword) {
 		return userRepository.findByLoginIdAndPassword(loginId, pasword);
 	}
+	
+	public UserEntity getUserEntityByEmail(String email) {
+		return userRepository.findLoginIdByEmail(email);
+	}
+	
+	public UserEntity getUserEntityByLoginIdAndEmail(String loginId, String email) {
+		return userRepository.findPasswordByLoginIdAndEmail(loginId, email);
+	}
 }

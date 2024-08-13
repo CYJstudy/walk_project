@@ -80,6 +80,27 @@ public class UserRestController {
 		
 		return result;
 	}
+	
+	@PostMapping("/account-check-id")
+	public Map<String, Object> accountCheckId(
+			@RequestParam("email") String email) {
+		
+		UserEntity user = userBO.getUserEntityByEmail(email);
+		
+		Map<String, Object> result = new HashMap<>();
+		if (user != null) {
+			result.put("code", 200);
+			result.put("result", "성공");
+		} else {
+			result.put("code", 500);
+			result.put("error_message", "아이디가 없습니다.");
+		}
+		
+		return result;
+		
+	}
+
+	
 }
 
 
