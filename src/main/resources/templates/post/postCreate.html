@@ -5,14 +5,20 @@
 	layout:decorate="~{layout/defaultLayout}">
 
 <section layout:fragment="content" class="mt-5 contents d-flex justify-content-center">
-	<div class="post-create-box">
-	
+	<div class="post-create-box">	
 		<h2>글쓰기</h2>
-			<div>제목</div>
-			<input type=text name="subject" class="form-control">
-
-			<button type="submit" id="savePostBtn" class="btn btn-info">저장하기</button>
-		</form>
+		<div id="wrap" class="container bg-secondary">
+			<div class="d-flex">
+				<div>제목</div>
+				<input type=text name="subject" class="form-control col-10">			
+			</div>
+			
+		
+		
+		</div>
+		<div class="d-flex justify-content-end">
+			<button type="submit" id="savePostBtn" class="btn btn-info">저장하기</button>	
+		</div>
 	</div>
 </section> 
 

@@ -40,27 +40,26 @@ public class UserController {
 		return "user/accountCheck";
 	}
 	
-	@ResponseBody
-	@PostMapping("/account-check-pw")
-	public Map<String, Object> accountCheckPw(
-			@RequestParam("loginId") String loginId,
-			@RequestParam("email") String email,
-			Model model) {
-		
-		UserEntity user = userBO.getUserEntityByLoginIdAndEmail(loginId, email);
-		
-		model.addAttribute("user", user);
-		
-		Map<String, Object> result = new HashMap<>();
-		if (user != null) {
-			result.put("code", 200);
-			result.put("result", "성공");
-		} else {
-			result.put("code", 500);
-			result.put("error_message", "비밀번호가 없습니다.");
-		}
-		
-		return result;
-		
-	}
+//	@PostMapping("/account-check-pw")
+//	public Map<String, Object> accountCheckPw(
+//			@RequestParam("loginId") String loginId,
+//			@RequestParam("email") String email,
+//			Model model) {
+//		
+//		UserEntity user = userBO.getUserEntityByLoginIdAndEmail(loginId, email);
+//		
+//		model.addAttribute("user", user);
+//		
+//		Map<String, Object> result = new HashMap<>();
+//		if (user != null) {
+//			result.put("code", 200);
+//			result.put("result", "성공");
+//		} else {
+//			result.put("code", 500);
+//			result.put("error_message", "비밀번호가 없습니다.");
+//		}
+//		
+//		return result;
+//		
+//	}
 }

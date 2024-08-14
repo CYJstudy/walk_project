@@ -16,9 +16,14 @@
 				<input type="text" id="emailForSearchPw" class="form-control mb-2 col-12" placeholder="이메일을 입력하세요">
 				<button type="button" id="pwSearchBtn" class="btn btn-dark">확인</button>							
 			</div>
+			<div>
+				<div id="resultPw" class="small text-danger d-none"></div>
+			</div>
+			<!-- resultpw 결과표시 테스트 
 			<div th:if="${user.password != null}">
 				<div id="resultPw" class="small text-danger d-none" th:value="${user.subject}"></div>
 			</div>
+			 -->
 			<div id="searchBtnBox">
 				<div class="d-flex justify-content-between">
 					<button type="button" id="searchId" class="btn btn-success">아이디 찾기</button>

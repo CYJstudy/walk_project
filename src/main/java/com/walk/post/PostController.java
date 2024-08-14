@@ -14,4 +14,9 @@ public class PostController {
 		return "post/postCreate";
 	}
 	
+	@GetMapping("/post-list-view")
+	public String postList() {
+		
+		return "post/postList";
+	}
 }
