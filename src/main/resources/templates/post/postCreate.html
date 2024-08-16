@@ -3,20 +3,51 @@
 	xmlns:th="http://www.thymeleaf.org" 
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/defaultLayout}">
-
+	<head>
+	 	<!-- jquery : bootstrap, datepicker -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>  
+        
+		<!-- datepicker-->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	</head>
 <section layout:fragment="content" class="mt-5 contents d-flex justify-content-center">
 	<div class="post-create-box">	
 		<h2>글쓰기</h2>
-		<div id="wrap" class="container bg-secondary">
+		<div id="wrap" class="container">
 			<div class="d-flex">
-				<div>제목</div>
-				<input type=text name="subject" class="form-control col-10">			
+				<div class="form-control text-center">제목</div>
+				<input type="text" name="subject" id="subject" class="form-control col-10">			
 			</div>
-			
-		
-		
+			<div class="form-control text-center">산책로 정보</div>
+			<div class="d-flex w-100">
+				<div class="w-50 form-border">
+					<img src="" alt="게시글 이미지">
+				</div>
+				<div class="w-50">
+					<div class="d-flex">
+						<div class="form-control col-3 text-center">장소</div>
+						<input type="text" name="place" id="place" class="form-control col-9">
+					</div>
+					<div class="d-flex">
+						<div class="form-control col-3 text-center">거리</div>
+						<input type="text" name="distance" id="distance" class="form-control col-9">
+					</div>
+					<div class="d-flex">
+						<div class="form-control col-3 text-center">소요시간</div>
+						<input type="text" name="time" id="time" class="form-control col-9">
+					</div>
+					<div class="d-flex">
+						<div class="form-control col-3 text-center">탐방일</div>
+						<input type="text" name="visitDate" id="visitDate" class="form-control col-9">
+					</div>
+				</div>
+			</div>
+			<div class="form-control text-center">내용</div>
+			<textarea rows="5" id="placeExplain" class="form-control"></textarea>
 		</div>
 		<div class="d-flex justify-content-end">
+			<input type="file" id="file" accept=".jpg, .png, .gif">
 			<button type="submit" id="savePostBtn" class="btn btn-info">저장하기</button>	
 		</div>
 	</div>
@@ -24,5 +55,104 @@
 
 <th:block layout:fragment="script">
 	<script>
+		$(document).ready(function() {
+			//alert("게시글 저장");
+			
+			//datepicker
+			$.datepicker.setDefaults({
+				dayNamesMin: ['일', '월', '화', '수', '목', '금', '토']
+				, dateFormat: 'yy-mm-dd'
+			});
+			
+			$.datepicker._gotoToday = function(id) {
+				$(id).datepicker('setDate', new Date()).datepickter('hide').blur();
+			}
+			
+			$('#visitDate').datepicker({
+				showButtonPanel: true
+			});
+			
+			
+			// 게시글 내용 저장
+			$("#savePostBtn").on('click', function() {
+				//alert("저장버튼");
+				
+				let subject = $("#subject").val().trim();
+				if (subject.length < 1) {
+					alert("제목을 입력해주세요");
+					return;
+				}
+				
+				let place = $("#place").val().trim();
+				if (place.length < 1) {
+					alert("장소를 입력해주세요");
+					return;
+				}
+				
+				let distance = $("#distance").val().trim();
+				if (distance.length < 1) {
+					alert("거리를 입력해주세요");
+					return;
+				}
+				
+				let time = $("#time").val().trim();
+				if (time.length < 1) {
+					alert("소요시간을 입력해주세요");
+					return;
+				}
+				
+				let visitDate = $("#visitDate").val();
+				if (visitDate.length < 1) {
+					alert("탐방일을 입력해주세요");
+					return;
+				}
+				
+				let placeExplain = $("#placeExplain").val().trim();
+				if (placeExplain.length < 1) {
+					alert("내용을 입력해주세요");
+					return;
+				}
+				
+				let fileName = $("#file").val();
+				if (!fileName) {
+					alert("이미지를 업로드해주세요");
+					return;
+				}
+				//console.log(subject);
+				//console.log(place);
+				//console.log(distance);
+				//console.log(time);
+				//console.log(visitDate);
+				//console.log(placeExplain);
+				//console.log(fileName);
+				
+				$.ajax({
+					type: "post"
+					, url: "/post/post-create"
+					, data: {"subject":subject, }
+				});
+				
+			});
+		});
 	</script>
 </th:block>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

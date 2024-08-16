@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.walk.user.bo.UserBO;
 import com.walk.user.entity.UserEntity;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @RequestMapping("/user")
 @RestController
 public class UserRestController {
@@ -65,12 +68,19 @@ public class UserRestController {
 	@PostMapping("/sign-in")
 	public Map<String, Object> signIn(			
 			@RequestParam("loginId") String loginId,
-			@RequestParam("password") String password) {
+			@RequestParam("password") String password,
+			HttpServletRequest request) {
 	
 		UserEntity user = userBO.getUserEntityLoginIdAndPassword(loginId, password);
 		
 		Map<String, Object> result = new HashMap<>();
 		if (user != null) {
+			// 세션에 사용자 정보를 담는다
+			HttpSession session = request.getSession();
+			session.setAttribute("userId", user.getId());
+			session.setAttribute("userLoginId", user.getLoginId());
+			session.setAttribute("userName", user.getName());
+			
 			result.put("code", 200);
 			result.put("result", "성공");
 		} else {
