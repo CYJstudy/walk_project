@@ -12,8 +12,12 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	</head>
 <section layout:fragment="content" class="mt-5 contents d-flex justify-content-center">
-	<div class="post-create-box">	
-		<h2>글쓰기</h2>
+	<div class="post-create-box">
+		<div class="d-flex justify-content-between">
+			<h2>글쓰기</h2>
+			<a class="btn btn-secondary" href="/post/post-list-view">글목록</a>			
+		</div>
+		<div></div>
 		<div id="wrap" class="container">
 			<div class="d-flex">
 				<div class="form-control text-center">제목</div>
@@ -44,10 +48,10 @@
 				</div>
 			</div>
 			<div class="form-control text-center">내용</div>
-			<textarea rows="5" id="placeExplain" class="form-control"></textarea>
+			<textarea rows="5" name="placeExplain" id="placeExplain" class="form-control"></textarea>
 		</div>
 		<div class="d-flex justify-content-end">
-			<input type="file" id="file" accept=".jpg, .png, .gif">
+			<input type="file" name="file" id="file" accept=".jpg, .png, .gif">
 			<button type="submit" id="savePostBtn" class="btn btn-info">저장하기</button>	
 		</div>
 	</div>
@@ -118,6 +122,17 @@
 					alert("이미지를 업로드해주세요");
 					return;
 				}
+				
+				if (fileName) {
+					let extension = fileName.split(".").pop().toLowerCase();
+					console.log(extension);
+					
+					if ($.inArray(extension, ["jpg", "gif", "png"]) == -1) {
+						alert("이미지 파일만 업로드 할 수 있습니다.");
+						$("#file").val("");  // 파일을 비운다.
+						return;
+					}
+				}
 				//console.log(subject);
 				//console.log(place);
 				//console.log(distance);
@@ -126,10 +141,36 @@
 				//console.log(placeExplain);
 				//console.log(fileName);
 				
+				// 이미지 업로드 시 form태그 필요
+				// key는 name과 같고, 리퀘스트 파라미터명
+				let formData = new FormData();
+				formData.append("subject", subject);
+				formData.append("place", place);
+				formData.append("distance", distance);
+				formData.append("time", time);
+				formData.append("visitDate", visitDate);
+				formData.append("placeExplain", placeExplain);
+				formData.append("file", $("#file")[0].files[0]);
+				
 				$.ajax({
-					type: "post"
-					, url: "/post/post-create"
-					, data: {"subject":subject, }
+					type:"post"
+					, url:"/post/post-create"
+					, data:formData
+					, enctype:"multipart/form-data" // 파일 업로드 필수 설정
+					, processData:false
+					, contentType:false
+					
+					, success:function(data) {
+						if (data.code == 200) {
+							alert("게시글이 저장되었습니다.");
+							location.href = "/post/post-list-view";
+						} else {
+							alert(data.error_message);
+						}
+					}
+				, error:function(error) {
+					alert("글을 저장하는데 실패했습니다.")
+				}
 				});
 				
 			});
