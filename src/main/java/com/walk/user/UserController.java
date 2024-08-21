@@ -1,19 +1,15 @@
 package com.walk.user;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.walk.user.bo.UserBO;
-import com.walk.user.entity.UserEntity;
+
+import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/user")
 @Controller
@@ -38,6 +34,18 @@ public class UserController {
 	public String accountCheck() {
 		
 		return "user/accountCheck";
+	}
+	
+	@RequestMapping("/sign-out")
+	public String signOut(HttpSession session) {
+		// session 내용 삭제
+		session.removeAttribute("userId");
+		session.removeAttribute("userLoginId");
+		session.removeAttribute("userName");
+		
+		// 로그인 페이지로 이동
+		return "redirect:/user/sign-in-view";
+		
 	}
 	
 //	@PostMapping("/account-check-pw")

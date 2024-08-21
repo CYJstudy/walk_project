@@ -1,12 +1,13 @@
 package com.walk.post.bo;
 
-import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.walk.common.FileManagerService;
+import com.walk.post.domain.Post;
 import com.walk.post.mapper.PostMapper;
 
 @Service
@@ -27,7 +28,16 @@ public class PostBO {
 			imagePath = fileManagerService.uploadFile(file, userLoginId);
 		}
 		
-		postMapper.insertPost(userId, subject, place, distance,
+		postMapper.insertPost(userId, userLoginId, subject, place, distance,
 				time, visitDate, placeExplain, imagePath);
+	}
+	
+	public List<Post> getPostList() {
+		return postMapper.selectPostList();
+	}
+	
+	public Post getPostByPostIdUserId(int postId, int userId) {
+		
+		return postMapper.selectPostByPostIdUserId(postId, userId);
 	}
 }

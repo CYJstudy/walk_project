@@ -17,11 +17,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>1</td>
- 					<td><a href="#">제목</a></td>
- 					<td>김바다</td>
-					<td>2024-08-14</td>
+				<tr th:each="post : ${postList}">
+					<td th:text="${post.id}">번호</td>
+ 					<td><a th:href="|/post/post-update-view?postId=${post.id}|" th:text="${post.subject}">제목</a></td>
+ 					<td th:text="${post.userLoginId}">유저아이디</td>
+					<td th:text="${#temporals.format(post.createdAt, 'yyyy년 M월 d일')}">2024-01-01</td>
 				</tr>
 			</tbody>		
 		</table>

@@ -7,8 +7,12 @@
 				<h1>Walk</h1>
 			</div>
 			<!-- 로그인 -->
-			<div class="col-3 text-center">
-				<h3>Login</h3>
+			<div th:if="${session.userId != null}">
+				<span th:text="${session.userName} + '님'"></span>
+				<a href="/user/sign-out" class="mx-1 text-dark">로그아웃</a>
+			</div>
+			<div th:unless="${session.userId != null}">
+				<a href="/user/sign-in-view">로그인</a>
 			</div>
 		</div>
 	</header>

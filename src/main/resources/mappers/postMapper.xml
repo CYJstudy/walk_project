@@ -15,6 +15,7 @@
  		INSERT INTO `post`
  		(
  			`userId`
+ 			, `userLoginId`
  			, `subject`
  			, `place`
  			, `distance`
@@ -28,6 +29,7 @@
  		VALUES
  		(
  			#{userId}
+ 			, #{userLoginId}
  			, #{subject}
  			, #{place}
  			, #{distance}
@@ -39,5 +41,35 @@
  			, NOW()
  		)
  	</insert>
+ 	
+ 	 <select id="selectPostList" parameterType="map" resultType="com.walk.post.domain.Post">
+ 		SELECT
+ 			*
+ 		FROM
+ 			`post`
+ 		ORDER BY `id` DESC 	
+ 	</select>
+ 	
+ 	 <select id="selectPostByPostIdUserId" parameterType="map" resultType="com.walk.post.domain.Post">
+ 		SELECT
+ 			 `userId`
+ 			, `userLoginId`
+ 			, `subject`
+ 			, `place`
+ 			, `distance`
+ 			, `time`
+ 			, `Date`
+ 			, `content`
+ 			, `imagePath`
+ 			, `createdAt`
+			, `updatedAt`
+ 		FROM
+ 			`post`
+ 		WHERE
+ 			`id` = #{postId}
+ 			AND `userId` = #{userId}
+ 	</select>
+ 	
+ 	
  
  </mapper>

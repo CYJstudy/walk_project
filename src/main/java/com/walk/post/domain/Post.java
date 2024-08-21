@@ -11,6 +11,7 @@ public class Post {
 
 	private int id;
 	private int userId;
+	private String userLoginId;
 	private String subject;
 	private String place;
 	private String distance;
