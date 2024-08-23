@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FileManagerService {
 
 	// 이미지가 저장 될 경로 지정
-	public static final String FILE_UPLOAD_PATH = "D:\\최윤정\\6_spring_project\\walk\\walk_workspace\\images";
+	public static final String FILE_UPLOAD_PATH = "D:\\최윤정\\6_spring_project\\walk\\walk_workspace\\images/";
 
 	public String uploadFile(MultipartFile file, String loginId) {
 		// 폴더(디렉토리) 생성

@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	</head>
-<section layout:fragment="content" class="mt-5 contents d-flex justify-content-center">
+<section layout:fragment="content" class="mt-2 contents d-flex justify-content-center">
 	<div class="post-create-box">
 		<div class="d-flex justify-content-between">
 			<h2>글쓰기</h2>
@@ -111,7 +111,7 @@
 					return;
 				}
 				
-				let placeExplain = $("#placeExplain").val().trim();
+				let placeExplain = $("#placeExplain").val();
 				if (placeExplain.length < 1) {
 					alert("내용을 입력해주세요");
 					return;

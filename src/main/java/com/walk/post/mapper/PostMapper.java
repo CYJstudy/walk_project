@@ -26,7 +26,15 @@ public interface PostMapper {
 	
 	public List<Post> selectPostList();
 	
-	public Post selectPostByPostIdUserId(
-			@Param("postId") int postId, 
-			@Param("userId") int userId);
+	public Post selectPostByPostId(
+			@Param("postId") int postId);
+	
+	public void updatePostByPostId(
+			@Param("postId") int postId,
+			@Param("subject") String subject, 
+			@Param("place") String place, 
+			@Param("distance") String distance, 
+			@Param("time") String time, 
+			@Param("visitDate") String visitDate, 
+			@Param("placeExplain") String placeExplain);
 }

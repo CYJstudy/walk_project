@@ -18,6 +18,7 @@ public class Post {
 	private String time;
 	private String date;
 	private String content;
+	private String imagePath;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 }

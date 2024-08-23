@@ -11,48 +11,84 @@
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	</head>
-<section layout:fragment="content" class="mt-5 contents d-flex justify-content-center">
+<section layout:fragment="content" class="mt-2 contents d-flex justify-content-center">
 	<div th:each="post : ${post}"class="post-update-box">
-		<div class="d-flex justify-content-between">
-			<h2>글수정</h2>
-			<a class="btn btn-secondary" href="/post/post-list-view">글목록</a>			
-		</div>
-		<div></div>
-		<div id="wrap" class="container">
-			<div class="d-flex">
-				<div class="form-control text-center">제목</div>
-				<input type="text" name="subject" id="subject" class="form-control col-10">			
+		<div th:if="${session.userId == post.userId}">
+			<div class="d-flex justify-content-between">
+				<h2>글수정</h2>
+				<a class="btn btn-secondary" href="/post/post-list-view">글목록</a>			
 			</div>
-			<div class="form-control text-center">산책로 정보</div>
-			<div class="d-flex w-100">
-				<div class="w-50 form-border">
-					<img src="" alt="게시글 이미지">
+			<div id="wrap" class="container">
+				<div class="d-flex">
+					<div class="form-control text-center">제목</div>
+					<input type="text" th:value="${post.subject}" name="subject" id="subject" class="form-control col-10">			
 				</div>
-				<div class="w-50">
+				<div class="form-control text-center">산책로 정보</div>
+				<div class="d-flex w-100">
+					<div class="w-50 form-border">
+						<img th:src="${post.imagePath}" alt="게시글 이미지" height="150">
+					</div>
+					<div class="w-50">
+						<div class="d-flex">
+							<div class="form-control col-3 text-center">장소</div>
+							<input type="text" th:value="${post.place}" name="place" id="place" class="form-control col-9">
+						</div>
+						<div class="d-flex">
+							<div class="form-control col-3 text-center">거리</div>
+							<input type="text" th:value="${post.distance}" name="distance" id="distance" class="form-control col-9">
+						</div>
+						<div class="d-flex">
+							<div class="form-control col-3 text-center">소요시간</div>
+							<input type="text" th:value="${post.time}" name="time" id="time" class="form-control col-9">
+						</div>
+						<div class="d-flex">
+							<div class="form-control col-3 text-center">탐방일</div>
+							<input type="text" th:value="${post.date}" name="visitDate" id="visitDate" class="form-control col-9">
+						</div>
+					</div>
+				</div>
+				<div class="form-control text-center">내용</div>
+				<textarea rows="5" th:text="${post.content}" name="placeExplain" id="placeExplain" class="form-control"></textarea>
+			</div>
+			<div class="d-flex justify-content-end">
+				<input type="file" name="file" id="file" accept=".jpg, .png, .gif">
+				<button type="submit" id="updatePostBtn" class="btn btn-info" th:data-post-update-id="${post.id}">수정하기</button>	
+			</div>
+		</div>
+		<div th:unless="${session.userId == post.userId}">
+			<div class="d-flex justify-content-between">
+				<h2>글보기</h2>
+				<a class="btn btn-secondary" href="/post/post-list-view">글목록</a>			
+			</div>
+			<div id="wrap" class="container">
+				<div class="d-flex">
+					<div class="form-control text-center">제목</div>
+					<div th:text="${post.subject}" class="form-control col-10"></div>		
+				</div>
+				<div class="w-100 form-border text-center">
+					<img th:src="${post.imagePath}" alt="게시글 이미지" height="250">
+					<div th:text="${post.content}" class="form-control"></div>
+				</div>
+				<div class="w-100">
 					<div class="d-flex">
 						<div class="form-control col-3 text-center">장소</div>
-						<input type="text" name="place" id="place" class="form-control col-9">
-					</div>
-					<div class="d-flex">
 						<div class="form-control col-3 text-center">거리</div>
-						<input type="text" name="distance" id="distance" class="form-control col-9">
-					</div>
-					<div class="d-flex">
 						<div class="form-control col-3 text-center">소요시간</div>
-						<input type="text" name="time" id="time" class="form-control col-9">
+						<div class="form-control col-3 text-center">탐방일</div>
 					</div>
 					<div class="d-flex">
-						<div class="form-control col-3 text-center">탐방일</div>
-						<input type="text" name="visitDate" id="visitDate" class="form-control col-9">
+						<div th:text="${post.place}" class="form-control col-3 text-center"></div>
+						<div th:text="${post.distance}" class="form-control col-3 text-center"></div>
+						<div th:text="${post.time}" class="form-control col-3 text-center"></div>
+						<div th:text="${post.date}" class="form-control col-3 text-center"></div>
 					</div>
 				</div>
 			</div>
-			<div class="form-control text-center">내용</div>
-			<textarea rows="5" name="placeExplain" id="placeExplain" class="form-control"></textarea>
-		</div>
-		<div class="d-flex justify-content-end">
-			<input type="file" name="file" id="file" accept=".jpg, .png, .gif">
-			<button th:if="${session.userId == post.userId}"type="submit" id="savePostBtn" class="btn btn-info">수정하기</button>	
+			<div class="d-flex mt-2">
+				<input type="text" name="comment" id="comment" class="ml-3 form-control col-11" placeholder="댓글을 남겨주세요">	
+				<button type="submit" id="saveCommentBtn" class="btn btn-info" th:data-post-comment-id="${post.id}">게시</button>	
+			</div>
+		
 		</div>
 	</div>
 </section> 
@@ -61,6 +97,64 @@
 	<script>
 		$(document).ready(function() {
 			//alert("게시글 저장");
+			
+			// 글 수정
+			$("#updatePostBtn").on('click', function() {
+				//alert("수정버튼 클릭");
+				
+				let postId = $(this).data("post-update-id"); 
+				//alert(postId);
+				let subject = $("#subject").val().trim();
+				let place = $("#place").val().trim();
+				let distance = $("#distance").val().trim();				
+				let time = $("#time").val().trim();
+				let visitDate = $("#visitDate").val();
+				let placeExplain = $("#placeExplain").val();
+/*				let fileName = $("#file").val();
+				
+				if (fileName) {
+					let extension = fileName.split(".").pop().toLowerCase();
+					console.log(extension);
+					
+					if ($.inArray(extension, ["jpg", "gif", "png"]) == -1) {
+						alert("이미지 파일만 업로드 할 수 있습니다.");
+						$("#file").val("");  // 파일을 비운다.
+						return;
+					}
+				}
+				
+				let formData = new FormData();
+				formData.append("postId", postId);
+				formData.append("subject", subject);
+				formData.append("place", place);
+				formData.append("distance", distance);
+				formData.append("time", time);
+				formData.append("visitDate", visitDate);
+				formData.append("placeExplain", placeExplain);
+				formData.append("file", $("#file")[0].files[0]);
+				*/
+				
+				$.ajax({
+					type:"put"
+					, url:"/post/post-update"
+					, data:{"postId":postId, "subject":subject, "place":place, "distance":distance, "time":time, "visitDate":visitDate, "placeExplain":placeExplain}
+//					, enctype:"multipart/form-data" // 파일 업로드 필수 설정
+//					, processData:false
+//					, contentType:false
+					
+					, success:function(data) {
+						if (data.code == 200) {
+							alert("게시글이 수정되었습니다.");
+							location.reload();
+						} else {
+							alert(data.error_message);
+						}
+					}
+					, error:function(error) {
+						alert("글을 수정하는데 실패했습니다.")
+					}
+				});
+			});
 		});
 	</script>
 </th:block>

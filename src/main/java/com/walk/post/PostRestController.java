@@ -1,11 +1,11 @@
 package com.walk.post;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,6 +44,29 @@ public class PostRestController {
 		
 		return result;
 		
+	}
+	
+	@PutMapping("/post-update")
+	public Map<String, Object> postUpdate(
+			@RequestParam("postId") int postId,
+			@RequestParam("subject") String subject,
+			@RequestParam("place") String place,
+			@RequestParam("distance") String distance,
+			@RequestParam("time") String time,
+			@RequestParam("visitDate") String visitDate,
+			@RequestParam("placeExplain") String placeExplain,
+			HttpSession session) {
+		
+		int userId = (int)session.getAttribute("userId");
+		String userLoginId = (String)session.getAttribute("userLoginId");
+		
+		postBO.updatePostByPostIdUserId(postId, userId, userLoginId, subject, place, distance, time, visitDate, placeExplain);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		
+		return result;
 	}
 	
 

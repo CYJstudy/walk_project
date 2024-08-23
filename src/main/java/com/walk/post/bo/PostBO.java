@@ -19,6 +19,7 @@ public class PostBO {
 	@Autowired
 	private PostMapper postMapper;
 	
+	// 신규 글 작성
 	public void addPost(int userId, String userLoginId, String subject, String place, String distance,
 			String time, String visitDate, String placeExplain, MultipartFile file) {
 		
@@ -32,12 +33,27 @@ public class PostBO {
 				time, visitDate, placeExplain, imagePath);
 	}
 	
+	// 글 목록 가져오기
 	public List<Post> getPostList() {
 		return postMapper.selectPostList();
 	}
 	
-	public Post getPostByPostIdUserId(int postId, int userId) {
+	// 게시글 하나 가져오기
+	public Post getPostByPostId(int postId) {
 		
-		return postMapper.selectPostByPostIdUserId(postId, userId);
+		return postMapper.selectPostByPostId(postId);
+	}
+	
+	// 게시글 내용 업데이트
+	public void updatePostByPostIdUserId(int postId, int userId, String userLoginId, String subject, String place, 
+			String distance, String time, String visitDate, String placeExplain) {
+		
+//		String imagePath = null;
+//		
+//		if (file == null) {
+//			imagePath = fileManagerService.uploadFile(file, userLoginId);
+//		}
+
+		postMapper.updatePostByPostId(postId, subject, place, distance, time, visitDate, placeExplain);
 	}
 }
