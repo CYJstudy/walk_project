@@ -59,4 +59,10 @@ public class PostController {
 		
 		return "post/postUpdate";
 	}
+	
+	@GetMapping("/photo-list-view")
+	public String photoList() {
+		
+		return "post/photoList";
+	}
 }
