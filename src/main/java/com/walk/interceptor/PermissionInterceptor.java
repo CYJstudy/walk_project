@@ -20,7 +20,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 		
 		// 요청 url path를 꺼낸다.
 		String uri = request.getRequestURI();
-		log.info("[&&&&&&&& preHandle] uri:{}", uri);
+		//log.info("[&&&&&&&& preHandle] uri:{}", uri);  -- clone push test
 		
 		// request에서 로그인 여부를 꺼낸다
 		HttpSession session = request.getSession();
